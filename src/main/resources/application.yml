@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /dosm/
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+logging:
+  level:
+    root: debug

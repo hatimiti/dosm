@@ -1,0 +1,2 @@
+INSERT INTO cm_shain (cm_shain_id, cm_kaisha_id, shain_sei, shain_mei, shain_sei_en, shain_mei_en, login_cd, password, reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no)
+  VALUES (1, 1, 'サンプル', '太郎', NULL, NULL, 'sample', 'password', 'hatimiti', now(), 'MAN', 'hatimiti', now(), 'MAN', 1);

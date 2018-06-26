@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/common/layout.html">
+<head>
+	<!--/*/ <th:block th:remove="all"> /*/-->
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="../../../../webcontents/share/css/init.css" />
+	<script src="/webcontents/share/js/jquery.js" ></script>
+	<!--/*/ </th:block> /*/-->
+	<title>ログイン画面</title>
+</head>
+<body>
+<div layout:fragment="contents">
+	<span th:if="${session['scopedTarget.accessUser']?.isLogged()}">ログインしました．</span>
+
+	<form th:action="." method="post">
+		ログイン：<input type="text" th:field="${form.loginCd}" /><br />
+			<div class="ErrorsProperty" th:errors="*{form.loginCd}" th:text="${e}">xxx</div>
+		パスワード：<input type="password" th:field="${form.password}" /><br />
+			<div class="ErrorsProperty" th:errors="*{form.password}" th:text="${e}">xxx</div>
+		<button type="submit" name="login">Login</button><br>
+		<button type="submit" name="dummyLogin">Dummy Login</button><br>
+	</form>
+</div>
+</body>
+</html>
