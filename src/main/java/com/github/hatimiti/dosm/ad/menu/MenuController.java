@@ -14,13 +14,13 @@ import static com.github.hatimiti.dosm.base.DosmModelAndView.view;
 @RequestMapping(MenuController.URI)
 public class MenuController {
 
-	public static final String URI = "/ad/menu/";
+	public static final String URI = "/ad/menu";
 
 	// 一覧
 
 	@RequestMapping
 	public ModelAndView index() {
-		return view(URI, "menu.html", null);
+		return view(URI, "/menu.html", null);
 	}
 
 }

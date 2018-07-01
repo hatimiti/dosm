@@ -17,6 +17,10 @@ public class DosmModelAndView extends ModelAndView {
         return view("", path, form);
     }
 
+    public static DosmModelAndView view(String base, String path) {
+        return new DosmModelAndView(base + path);
+    }
+
     public static DosmModelAndView view(String base, String path, Form form) {
         return new DosmModelAndView(base + path, form);
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sa=""
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="/common/layout.html">
 <head>
@@ -13,18 +13,24 @@
 	<title>メニュー画面</title>
 </head>
 <body>
+<div th:fragment="logout" sec:authorize="isAuthenticated()">
+	<p>Login as: <span sec:authentication="lastName"></span> <span sec:authentication="principal.authorities"></span></p>
+	<form action="#" th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+</div>
 <div layout:fragment="contents">
 
-	<a th:href="@{'/sample/hello/index'}">Hello コントローラ</a><br />
-	<a th:href="@{'/sample/hello/output-report'}">帳票出力(PDF)</a><br />
-	<a th:href="@{'/sample/hello/output-xls'}">帳票出力(XLS)</a><br />
-	<a th:href="@{'/sample/hello/output-doxls'}">帳票出力(Dox XLS)</a><br />
-	<a th:href="@{'/sample/rest/hello'}">Hello REST</a><br />
-	<a th:href="@{'/sample/ad/master/cmKaisha/'}">会社マスタ</a><br />
-	<a th:href="@{'/sample/ad/master/cmShain/'}">社員マスタ</a><br />
-	<a th:href="@{'/sample/sendmail/'}">メール送信</a><br />
-	<a th:href="@{'/sample/sendmail/log'}">メールログ送信(logback)</a><br />
-	<a th:href="@{'/sample/timeapi/calc/'}">DateAndTime API Sample</a><br />
+	<a th:href="@{'/hello/index'}">Hello コントローラ</a><br />
+	<a th:href="@{'/hello/output-report'}">帳票出力(PDF)</a><br />
+	<a th:href="@{'/hello/output-xls'}">帳票出力(XLS)</a><br />
+	<a th:href="@{'/hello/output-doxls'}">帳票出力(Dox XLS)</a><br />
+	<a th:href="@{'/rest/hello'}">Hello REST</a><br />
+	<a th:href="@{'/ad/master/cmKaisha/'}">会社マスタ</a><br />
+	<a th:href="@{'/ad/master/cmShain/'}">社員マスタ</a><br />
+	<a th:href="@{'/sendmail/'}">メール送信</a><br />
+	<a th:href="@{'/sendmail/log'}">メールログ送信(logback)</a><br />
+	<a th:href="@{'/timeapi/calc/'}">DateAndTime API Sample</a><br />
 
 </div>
 </body>

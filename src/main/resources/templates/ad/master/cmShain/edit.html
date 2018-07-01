@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/common/layout.html">
+<head>
+	<!--/*/ <th:block th:remove="all"> /*/-->
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="../../../../webcontents/share/css/init.css" />
+	<script src="/webcontents/share/js/jquery.js" ></script>
+	<!--/*/ </th:block> /*/-->
+	<title th:if="${form.mode.code eq T(com.github.hatimiti.dosm.ad.master.Mode).Register.code}">社員登録画面</title>
+	<title th:if="${form.mode.code eq T(com.github.hatimiti.dosm.ad.master.Mode).Update.code}"  >社員更新画面</title>
+	<title th:if="${form.mode.code eq T(com.github.hatimiti.dosm.ad.master.Mode).Delete.code}"  >社員削除画面</title>
+</head>
+<body>
+<ul>
+    <li>errors</li>
+	<li th:each="e : ${#fields.detailedErrors()}"
+		th:class="${e.global}? globalerrMsg : fielderrMsg" th:text="${e.message}" />
+</ul>
+<span th:text="${form.hashCode()}">aaaa</span>
+<div layout:fragment="contents">
+	<form action="." th:action="." method="post">
+	<h3>基本情報</h3>
+
+	<span th:if="${form.mode.code ne T(com.github.hatimiti.dosm.ad.master.Mode).Register}">
+		社員ID:<span th:text="${form.cmShainId}">100</span><br />
+	</span>
+
+	会社:
+		<select th:field="${form.cmKaishaId}" >
+			<option value="">----</option>
+			<option value="1">ここに会社名</option>
+			<!--/*/ <th:block th:remove="all"> /*/-->
+			<option value="2">bbb</option>
+			<option value="3">ccc</option>
+			<!--/*/ </th:block> /*/-->
+		</select>
+	<br />
+
+	社員名(姓):<input type="text" value="田中" th:field="${form.shainSei}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.shainSei')}" th:errors="*{shainSei}">xxx</div>
+	社員名(名):<input type="text" value="一郎" th:field="${form.shainMei}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.shainMei')}" th:errors="*{shainMei}">xxx</div>
+
+	社員名(姓)(英):<input type="text" value="Tanaka" th:field="${form.shainSeiEn}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.shainSeiEn')}" th:errors="*{shainSeiEn}">xxx</div>
+	社員名(名)(英):<input type="text" value="Ichiro" th:field="${form.shainMeiEn}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.shainMeiEn')}" th:errors="*{shainMeiEn}">xxx</div>
+
+	ログインCD:<input type="text" value="aa123" th:field="${form.loginCd}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.loginCd')}" th:errors="*{loginCd}">xxx</div>
+	パスワード:<input type="password" value="aaa" th:field="${form.password}" /><br />
+		<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.password')}" th:errors="*{password}">xxx</div>
+
+	<input type="submit" name="backToList" value="戻る" />
+	<span th:switch="${form.mode.code}">
+		<input type="submit" name="confirmRegister" value="次へ" th:case="${T(com.github.hatimiti.dosm.ad.master.Mode).Register.code}" />
+		<input type="submit" name="confirmUpdate"   value="次へ" th:case="${T(com.github.hatimiti.dosm.ad.master.Mode).Update.code}" />
+	</span>
+	</form>
+
+</div>
+</body>
+</html>
