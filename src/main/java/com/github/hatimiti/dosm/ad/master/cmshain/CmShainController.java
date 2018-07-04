@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,7 +21,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
  * @author hatimiti
  */
 @Controller
-@SessionAttributes(types = CmShainForm.class, names = "form")
+@SessionAttributes(types = CmShainForm.class)
 @RequestMapping(CmShainController.URI)
 public class CmShainController {
 
@@ -89,7 +90,7 @@ public class CmShainController {
 			final @Validated CmShainForm form,
 			final BindingResult bind) {
 		return bind.hasErrors()
-				? backToPrepare(form)
+				? backToPrepare(form, bind)
 				: view(URI, "confirm.html", form);
 	}
 
@@ -152,21 +153,23 @@ public class CmShainController {
 	// 共通
 
 	@RequestMapping("complete")
-	public ModelAndView complete(final CmShainForm form) {
+	public ModelAndView complete(final CmShainForm form, SessionStatus sessionStatus) {
+	    sessionStatus.setComplete();
 		return view(URI, "complete.html", form);
 	}
 
 	@RequestMapping(params = "backToList")
-	public ModelAndView backToList(final CmShainForm form, RedirectAttributes ra) {
+	public ModelAndView backToList(
+			final CmShainForm form, final RedirectAttributes ra) {
 		return redirect("search", ra);
 	}
 
 	@RequestMapping(params = "backToPrepare")
-	public ModelAndView backToPrepare(final CmShainForm form) {
+	public ModelAndView backToPrepare(final CmShainForm form, final BindingResult bind) {
 		if (Mode.Delete == form.getMode()) {
 			return backToList(form, null);
 		}
-		return view(URI, "edit.html", form);
+		return view(URI, "edit.html", form, bind);
 	}
 
 	private void init(final CmShainForm form, final Mode mode) {

@@ -1,16 +1,19 @@
 package com.github.hatimiti.dosm.base;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public class DosmModelAndView extends ModelAndView {
+
     private DosmModelAndView(String view) {
-        this(view, null);
+        this(view, null, null);
     }
 
-    private DosmModelAndView(String view, Form form) {
+    private DosmModelAndView(String view, Form form, BindingResult bind) {
         super(view);
         addObject("form", form);
+        addObject(BindingResult.MODEL_KEY_PREFIX + "form", bind);
     }
 
     public static DosmModelAndView view(String path, Form form) {
@@ -18,11 +21,15 @@ public class DosmModelAndView extends ModelAndView {
     }
 
     public static DosmModelAndView view(String base, String path) {
-        return new DosmModelAndView(base + path);
+        return view(base, path, null);
     }
 
     public static DosmModelAndView view(String base, String path, Form form) {
-        return new DosmModelAndView(base + path, form);
+        return view(base, path, form, null);
+    }
+
+    public static DosmModelAndView view(String base, String path, Form form, BindingResult bind) {
+        return new DosmModelAndView(base + path, form, bind);
     }
 
     public static DosmModelAndView redirect(String to, RedirectAttributes ra) {
@@ -34,6 +41,6 @@ public class DosmModelAndView extends ModelAndView {
     }
 
     public static DosmModelAndView download(Form form) {
-        return new DosmModelAndView(null, form);
+        return new DosmModelAndView(null, form, null);
     }
 }
