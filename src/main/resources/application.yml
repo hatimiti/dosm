@@ -2,6 +2,8 @@ server:
   servlet:
     context-path: /dosm/
 spring:
+  messages:
+    basename: messages
   datasource:
     driver-class-name: org.h2.Driver
     username: sa

@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * 入力チェック(TERASORUNA): https://terasolunaorg.github.io/guideline/5.3.0.RELEASE/ja/ArchitectureInDetail/WebApplicationDetail/Validation.html
@@ -17,17 +19,25 @@ import javax.validation.constraints.NotEmpty;
 public class CmShainForm implements Form {
 
 	private Long cmShainId;
+
 	private Long cmKaishaId;
-	@NotEmpty
+	@NotBlank
+	@Size(max = 50)
 	private String shainSei;
+	@NotBlank
+	@Size(max = 50)
 	private String shainMei;
+	@Size(max = 100)
 	private String shainSeiEn;
+	@Size(max = 100)
 	private String shainMeiEn;
 
+	@NotEmpty
 	private String loginCd;
-	private String password;
-	private Integer versionNo;
 
+	private String password;
+
+	private Integer versionNo;
 	private Mode mode;
 
 	public void copyFrom(final CmShain entity) {
