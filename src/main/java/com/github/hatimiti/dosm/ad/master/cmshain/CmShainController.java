@@ -114,9 +114,9 @@ public class CmShainController {
 		if (bind.hasErrors()) {
 			return backToList(form, ra);
 		}
-		val shain = this.cmShainService.register(form);
+		val cmShain = this.cmShainService.register(form);
 		return redirect("complete", ra,
-				createCompleteRegisterMessage(shain.getCmShainId()));
+				createCompleteMessage(cmShain.getCmShainId(), "msg.info.complete.register"));
 	}
 
 	// 更新
@@ -142,30 +142,33 @@ public class CmShainController {
 	public ModelAndView update(
 			final @Validated(Upd.class) CmShainForm form,
 			final RedirectAttributes ra) {
-		val shain = this.cmShainService.update(form);
+		val cmShain = this.cmShainService.update(form);
 		return redirect("complete", ra,
-				createCompleteUpdateMessage(shain.getCmShainId()));
+				createCompleteMessage(cmShain.getCmShainId(), "msg.info.complete.update"));
 	}
 
-//	// 削除
-//
-////	@Token(SET)
-////	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-//	@RequestMapping(params = "confirmDelete")
-//	public DoxModelAndView confirmDelete(CmShainForm form) {
-//		init(form, Mode.Delete);
-//		this.cmShainService.confirmDelete(form);
-//		return view(URI, "confirm.html", form);
-//	}
-//
-////	@Token(CHECK)
-////	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-//	@RequestMapping(params = "delete")
-//	public ModelAndView delete(CmShainForm form, RedirectAttributes ra) {
-//		CmShain shain = this.cmShainService.delete(form);
-//		saveDeleteMessage(shain.getCmShainId());
-//		return redirect("complete", ra);
-//	}
+	// 削除
+
+//	@Token(SET)
+//	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
+	@RequestMapping(params = "confirmDelete")
+	public ModelAndView confirmDelete(
+			final CmShainForm form) {
+		init(form, Mode.Delete);
+		this.cmShainService.confirmDelete(form);
+		return view(URI, "confirm.html", form);
+	}
+
+//	@Token(CHECK)
+//	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
+	@RequestMapping(params = "delete")
+	public ModelAndView delete(
+			final @Validated(Upd.class) CmShainForm form,
+			final RedirectAttributes ra) {
+		val cmShain = this.cmShainService.delete(form);
+		return redirect("complete", ra,
+				createCompleteMessage(cmShain.getCmShainId(), "msg.info.complete.delete"));
+	}
 
 	// 共通
 
@@ -196,18 +199,9 @@ public class CmShainController {
 		form.setMode(mode);
 	}
 
-	private FlashAttribute<String[]> createCompleteRegisterMessage(final Long cmShainId) {
-	    return createCompleteMessage(cmShainId, "msg.info.complete.register");
-	}
-
-	private FlashAttribute<String[]> createCompleteUpdateMessage(final Long cmShainId) {
-		return createCompleteMessage(cmShainId, "msg.info.complete.update");
-	}
-
 	private FlashAttribute<String[]> createCompleteMessage(final Long cmShainId, final String msgKey) {
 		return new FlashAttribute("globalMessages", new String[] {
 				messageSource.getMessage(msgKey, new Object[] { cmShainId }, Locale.getDefault())
 		});
 	}
-
 }
