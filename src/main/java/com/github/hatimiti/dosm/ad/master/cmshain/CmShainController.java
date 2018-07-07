@@ -1,16 +1,22 @@
 package com.github.hatimiti.dosm.ad.master.cmshain;
 
 import com.github.hatimiti.dosm.ad.master.Mode;
+import com.github.hatimiti.dosm.ad.master.Mode.Reg;
+import com.github.hatimiti.dosm.base.FlashAttribute;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Locale;
 
 import static com.github.hatimiti.dosm.base.DosmModelAndView.redirect;
 import static com.github.hatimiti.dosm.base.DosmModelAndView.view;
@@ -27,11 +33,15 @@ public class CmShainController {
 
 	public static final String URI = "/ad/master/cmShain/";
 
-	@Autowired
-    private final CmShainService cmShainService;
+    private final CmShainServiceImpl cmShainService;
+    private final MessageSource messageSource;
 
-	public CmShainController(final CmShainService cmShainService) {
+	@Autowired
+	public CmShainController(
+			final CmShainServiceImpl cmShainService,
+			final MessageSource messageSource) {
 		this.cmShainService = cmShainService;
+		this.messageSource = messageSource;
 	}
 
 	// 一覧
@@ -84,10 +94,9 @@ public class CmShainController {
 		return view(URI, "edit.html", form);
 	}
 
-//	@DoValidation(v = { Validate4Register.class }, to = "backToPrepare", transition = FORWORD)
-	@RequestMapping(params = "confirmRegister")
+	@PostMapping(params = "confirmRegister")
 	public ModelAndView confirmRegister(
-			final @Validated CmShainForm form,
+			final @Validated(Reg.class) CmShainForm form,
 			final BindingResult bind) {
 		return bind.hasErrors()
 				? backToPrepare(form, bind)
@@ -95,12 +104,17 @@ public class CmShainController {
 	}
 
 //	@Token(CHECK)
-//	@DoValidation(v = { Validate4Register.class }, to = "backToList", transition = FORWORD)
-	@RequestMapping(params = "register")
-	public ModelAndView register(final CmShainForm form, final RedirectAttributes ra) {
+	@PostMapping(params = "register")
+	public ModelAndView register(
+			final @Validated(Reg.class) CmShainForm form,
+			final BindingResult bind,
+			final RedirectAttributes ra) {
+
+		if (bind.hasErrors()) {
+			return backToList(form, ra);
+		}
 		val shain = this.cmShainService.register(form);
-//		saveRegisterMessage(shain.getCmShainId());
-		return redirect("complete", ra);
+		return redirect("complete", ra, createCompleteRegisterMessage(shain.getCmShainId()));
 	}
 
 	// 更新
@@ -177,6 +191,12 @@ public class CmShainController {
 		copyProperties(new CmShainForm(), form);
 		form.setCmShainId(tmpId);
 		form.setMode(mode);
+	}
+
+	private FlashAttribute<String[]> createCompleteRegisterMessage(final Long cmShainId) {
+		return new FlashAttribute("globalMessages", new String[] {
+				messageSource.getMessage("msg.info.complete.register", new Object[] { cmShainId }, Locale.getDefault())
+		});
 	}
 
 }

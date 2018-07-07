@@ -3,12 +3,12 @@ package com.github.hatimiti.dosm.ad.master.cmshain;
 import com.github.hatimiti.dosm.ad.master.Mode;
 import com.github.hatimiti.dosm.base.Form;
 import com.github.hatimiti.dosm.repository.entity.CmShain;
+import com.github.hatimiti.dosm.validator.UnusedCmShainId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 /**
@@ -18,6 +18,8 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class CmShainForm implements Form {
 
+	@UnusedCmShainId
+	@NotBlank(groups = Mode.Upd.class)
 	private Long cmShainId;
 
 	private Long cmKaishaId;
@@ -32,9 +34,10 @@ public class CmShainForm implements Form {
 	@Size(max = 100)
 	private String shainMeiEn;
 
-	@NotEmpty
+	@NotBlank
 	private String loginCd;
 
+	@NotBlank(groups = Mode.Reg.class)
 	private String password;
 
 	private Integer versionNo;

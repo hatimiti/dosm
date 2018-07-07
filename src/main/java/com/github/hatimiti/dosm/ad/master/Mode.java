@@ -1,5 +1,7 @@
 package com.github.hatimiti.dosm.ad.master;
 
+import javax.validation.groups.Default;
+
 public enum Mode {
     /** 登録: 登録処理を示す */
     Register("01"),
@@ -20,4 +22,7 @@ public enum Mode {
     public String getCode() {
         return code;
     }
+
+    public static interface Reg extends Default {}
+    public static interface Upd extends Default {}
 }

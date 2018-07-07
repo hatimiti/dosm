@@ -8,6 +8,12 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+mybatis: # http://www.mybatis.org/mybatis-3/ja/configuration.html
+  configuration:
+    default-fetch-size: 1000
+    default-statement-timeout: 60
+    map-underscore-to-camel-case: true
+    auto-mapping-unknown-column-behavior: FAILING
 logging:
   level:
     root: debug

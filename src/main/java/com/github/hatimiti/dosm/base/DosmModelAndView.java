@@ -4,6 +4,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
+
 public class DosmModelAndView extends ModelAndView {
 
     private DosmModelAndView(String view) {
@@ -33,6 +35,16 @@ public class DosmModelAndView extends ModelAndView {
     }
 
     public static DosmModelAndView redirect(String to, RedirectAttributes ra) {
+        return redirect(to, ra, new FlashAttribute[0]);
+    }
+
+    public static DosmModelAndView redirect(
+            final String to,
+            final RedirectAttributes ra,
+            final FlashAttribute... flashAttrs) {
+
+        Arrays.asList(flashAttrs)
+                .forEach(a -> ra.addFlashAttribute(a.getName(), a.getValue()));
         return new DosmModelAndView("redirect:" + to);
     }
 
@@ -43,4 +55,5 @@ public class DosmModelAndView extends ModelAndView {
     public static DosmModelAndView download(Form form) {
         return new DosmModelAndView(null, form, null);
     }
+
 }
