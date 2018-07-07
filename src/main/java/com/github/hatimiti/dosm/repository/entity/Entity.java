@@ -8,8 +8,12 @@ import java.time.LocalDateTime;
 @Data
 public abstract class Entity implements Serializable {
 
-    public static final String COMMON_COLUMNS = " reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no ";
-    public static final String COMMON_PLACEHOLDER = " #{regUserId}, #{regTm}, #{regFuncCd}, #{updUserId}, #{updTm}, #{updFuncCd}, #{versionNo} ";
+    public static final String COMMON_COLUMNS = "reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no";
+    public static final String COMMON_PLACEHOLDER = "#{regUserId}, #{regTm}, #{regFuncCd}, #{updUserId}, #{updTm}, #{updFuncCd}, #{versionNo}";
+    public static final String COMMON_COLUMNS_FOR_UPDATE
+            = "reg_user_id = #{regUserId}, reg_tm = #{regTm}, reg_func_cd = #{regFuncCd},"
+                + " upd_user_id = #{updUserId}, upd_tm = #{updTm}, upd_func_cd = #{updFuncCd}, version_no = version_no + 1";
+    public static final String WHERE_VERSION_NO = "version_no = #{versionNo}";
 
     /** REG_USER_ID: {NotNull, VARCHAR(10)} */
     protected String regUserId;
@@ -47,5 +51,14 @@ public abstract class Entity implements Serializable {
         setUpdFuncCd(updFuncCd);
         final Integer versionNo = 1;
         setVersionNo(versionNo);
+    }
+
+    public void setupCommonColumnOfUpdate() {
+        final String updUserId = /*TODO*/"ADMIN";
+        setUpdUserId(updUserId);
+        final java.time.LocalDateTime updTm = /*TODO*/LocalDateTime.now();
+        setUpdTm(updTm);
+        final String updFuncCd = /*TODO*/"FXXX";
+        setUpdFuncCd(updFuncCd);
     }
 }

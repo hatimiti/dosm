@@ -10,12 +10,12 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = { UnusedCmShainIdValidator.class })
+@Constraint(validatedBy = { ExistsCmShainIdValidator.class })
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)
-public @interface UnusedCmShainId {
+public @interface ExistsCmShainId {
 
-    String message() default "{com.github.hatimiti.dosm.validator.UnusedId.message}";
+    String message() default "{com.github.hatimiti.dosm.validator.exists.id.message}";
 
     Class<?>[] groups() default {};
 
@@ -25,6 +25,6 @@ public @interface UnusedCmShainId {
     @Retention(RUNTIME)
     @Documented
     public @interface List {
-        UnusedCmShainId[] value();
+        ExistsCmShainId[] value();
     }
 }

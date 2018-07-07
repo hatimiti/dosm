@@ -8,12 +8,13 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Component
-public class UnusedCmShainIdValidator implements ConstraintValidator<UnusedCmShainId, Object> {
+public class ExistsCmShainIdValidator
+        implements ConstraintValidator<ExistsCmShainId, Object> {
 
     @Autowired
     private final CmShainRepository cmShainRepository;
 
-    public UnusedCmShainIdValidator(final CmShainRepository cmShainRepository) {
+    public ExistsCmShainIdValidator(final CmShainRepository cmShainRepository) {
         this.cmShainRepository = cmShainRepository;
     }
 
@@ -24,6 +25,6 @@ public class UnusedCmShainIdValidator implements ConstraintValidator<UnusedCmSha
         if (value == null) {
             return true;
         }
-        return cmShainRepository.selectByPk(value) == null;
+        return cmShainRepository.selectByPk(value) != null;
     }
 }

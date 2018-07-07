@@ -2,10 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.github.hatimiti.dosm.repository.CmShainRepository">
+    <resultMap id="cmShainMap" type="com.github.hatimiti.dosm.repository.entity.CmShain">
+        <id property="cmShainId" column="cm_shain_id" />
+        <result property="cmKaishaId" column="cm_kaisha_id" />
+        <result property="shainSei" column="shain_sei" />
+        <result property="shainMei" column="shain_mei" />
+        <result property="shainSeiEn" column="shain_sei_en" />
+        <result property="shainMeiEn" column="shain_mei_en" />
+        <result property="loginCd" column="login_cd" />
+        <result property="password" column="password" />
 
-    <sql id="selectByPkWithRel">
+        <result property="regUserId" column="reg_user_id" />
+        <result property="regTm" column="reg_tm" />
+        <result property="regFuncCd" column="reg_func_cd" />
+        <result property="updUserId" column="upd_user_id" />
+        <result property="updTm" column="upd_tm" />
+        <result property="updFuncCd" column="upd_func_cd" />
+        <result property="versionNo" column="version_no" />
+
+        <association property="cmKaisha" javaType="com.github.hatimiti.dosm.repository.entity.CmKaisha">
+            <id property="cmKaishaId" column="cm_kaisha_id" />
+            <result property="kaishaMei" column="kaisha_mei" />
+            <result property="kaishaMeiEn" column="kaisha_mei_en" />
+        </association>
+    </resultMap>
+
+    <select id="selectByPkWithRel" resultMap="cmShainMap">
         SELECT *
           FROM cm_shain s
-         WHERE s.cm_shain_id = #{cmShainId}
-    </sql>
+          JOIN cm_kaisha k
+            ON s.cm_kaisha_id = k.cm_kaisha_id
+         WHERE s.cm_shain_id = #{id}
+    </select>
 </mapper>

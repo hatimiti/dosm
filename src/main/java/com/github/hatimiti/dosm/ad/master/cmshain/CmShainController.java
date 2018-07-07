@@ -2,6 +2,7 @@ package com.github.hatimiti.dosm.ad.master.cmshain;
 
 import com.github.hatimiti.dosm.ad.master.Mode;
 import com.github.hatimiti.dosm.ad.master.Mode.Reg;
+import com.github.hatimiti.dosm.ad.master.Mode.Upd;
 import com.github.hatimiti.dosm.base.FlashAttribute;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,12 @@ public class CmShainController {
 
 	public static final String URI = "/ad/master/cmShain/";
 
-    private final CmShainServiceImpl cmShainService;
+    private final CmShainService cmShainService;
     private final MessageSource messageSource;
 
 	@Autowired
 	public CmShainController(
-			final CmShainServiceImpl cmShainService,
+			final CmShainService cmShainService,
 			final MessageSource messageSource) {
 		this.cmShainService = cmShainService;
 		this.messageSource = messageSource;
@@ -114,36 +115,38 @@ public class CmShainController {
 			return backToList(form, ra);
 		}
 		val shain = this.cmShainService.register(form);
-		return redirect("complete", ra, createCompleteRegisterMessage(shain.getCmShainId()));
+		return redirect("complete", ra,
+				createCompleteRegisterMessage(shain.getCmShainId()));
 	}
 
 	// 更新
 
 //	@Token(SET)
 //	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-//	@RequestMapping(params = "prepareUpdate")
-//	public ModelAndView prepareUpdate(CmShainForm form) {
-//		init(form, Mode.Update);
-//		this.cmShainService.prepareUpdate(form);
-//
-//		return view(URI, "edit.html", form);
-//	}
-//
-////	@DoValidation(v = { ValidId.class, Validate4Update.class }, to = "backToPrepare", transition = FORWORD)
-//	@RequestMapping(params = "confirmUpdate")
-//	public ModelAndView confirmUpdate(CmShainForm form) {
-//		return view(URI, "confirm.html", form);
-//	}
-//
-////	@Token(CHECK)
-////	@DoValidation(v = { ValidId.class, Validate4Update.class }, to = "backToList", transition = FORWORD)
-//	@RequestMapping(params = "update")
-//	public ModelAndView update(CmShainForm form, RedirectAttributes ra) {
-//		CmShain shain = this.cmShainService.update(form);
-//		saveUpdateMessage(shain.getCmShainId());
-//		return redirect("complete", ra);
-//	}
-//
+	@RequestMapping(params = "prepareUpdate")
+	public ModelAndView prepareUpdate(
+			final CmShainForm form) {
+		init(form, Mode.Update);
+		this.cmShainService.prepareUpdate(form);
+		return view(URI, "edit.html", form);
+	}
+
+	@PostMapping(params = "confirmUpdate")
+	public ModelAndView confirmUpdate(
+			final @Validated(Upd.class) CmShainForm form) {
+		return view(URI, "confirm.html", form);
+	}
+
+//	@Token(CHECK)
+	@PostMapping(params = "update")
+	public ModelAndView update(
+			final @Validated(Upd.class) CmShainForm form,
+			final RedirectAttributes ra) {
+		val shain = this.cmShainService.update(form);
+		return redirect("complete", ra,
+				createCompleteUpdateMessage(shain.getCmShainId()));
+	}
+
 //	// 削除
 //
 ////	@Token(SET)
@@ -194,8 +197,16 @@ public class CmShainController {
 	}
 
 	private FlashAttribute<String[]> createCompleteRegisterMessage(final Long cmShainId) {
+	    return createCompleteMessage(cmShainId, "msg.info.complete.register");
+	}
+
+	private FlashAttribute<String[]> createCompleteUpdateMessage(final Long cmShainId) {
+		return createCompleteMessage(cmShainId, "msg.info.complete.update");
+	}
+
+	private FlashAttribute<String[]> createCompleteMessage(final Long cmShainId, final String msgKey) {
 		return new FlashAttribute("globalMessages", new String[] {
-				messageSource.getMessage("msg.info.complete.register", new Object[] { cmShainId }, Locale.getDefault())
+				messageSource.getMessage(msgKey, new Object[] { cmShainId }, Locale.getDefault())
 		});
 	}
 

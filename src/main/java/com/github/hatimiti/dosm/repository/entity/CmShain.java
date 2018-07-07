@@ -30,6 +30,8 @@ public final class CmShain extends Entity {
     /** PASSWORD: {NotNull, VARCHAR(100)} */
     private String password;
 
+    private CmKaisha cmKaisha;
+
     public void copyFrom(final CmShainForm form) {
         this.setCmShainId(form.getCmShainId());
         this.setCmKaishaId(form.getCmKaishaId());

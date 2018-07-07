@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 
@@ -94,76 +93,72 @@ public class CmShainServiceImpl implements CmShainService {
 	public CmShain register(
 			final CmShainForm form) {
 
-		val shain = new CmShain();
+		val cmShain = new CmShain();
 
-		shain.copyFrom(form);
-		shain.setPassword(form.getEncryptedPassword());
-		shain.setupCommonColumnOfInsert();
+		cmShain.copyFrom(form);
+		cmShain.setPassword(form.getEncryptedPassword());
+		cmShain.setupCommonColumnOfInsert();
 
-		this.cmShainRepository.save(shain);
+		this.cmShainRepository.insert(cmShain);
 
-		return shain;
+		return cmShain;
 	}
 
 	/*
 	 * 更新
 	 */
 
-//	public void prepareUpdate(final CmShainForm form) {
-//		setCmShainWithRel(form);
-//	}
-//
-//	public CmShain update(
-//			final CmShainForm form) {
-//
-//		val shain = this.cmShainBhv.selectByPk4Update(form.cmShainId);
-//
-//		// Stores the current password temporary.
-//		String nowPassword = shain.getPassword();
-//		shain.copyFrom(form);
-//
-//		// If the new password is inputed, sets it encrypted.
-//		shain.setPassword(form.getPassword().isEmpty()
-//				? nowPassword
-//				: form.getEncryptedPassword());
-//
-//		this.cmShainBhv.update(shain);
-//
-//		return shain;
-//	}
-//
-//	/*
-//	 * 削除
-//	 */
-//
-//	public void confirmDelete(final CmShainForm form) {
-//		setCmShainWithRel(form);
-//	}
-//
-//	public CmShain delete(final CmShainForm form) {
-//
-//		// 行ロック
-//		this.cmShainBhv.selectByPk4Update(form.cmShainId);
-//
-//		val shain = selectByPkWithRel(form.cmShainId);
-//
-//		this.cmShainBhv.delete(shain);
-//		return shain;
-//	}
+	public void prepareUpdate(final CmShainForm form) {
+		setCmShainWithRel(form);
+	}
+
+	public CmShain update(
+			final CmShainForm form) {
+
+		val cmShain = this.cmShainRepository.selectByPk4Update(form.getCmShainId());
+
+		// Stores the current password temporarily.
+		val nowPassword = cmShain.getPassword();
+		cmShain.copyFrom(form);
+
+		// If the new password is inputed, sets it encrypted.
+		cmShain.setPassword(form.getPassword().isEmpty()
+				? nowPassword
+				: form.getEncryptedPassword());
+
+		cmShain.setupCommonColumnOfUpdate();
+		this.cmShainRepository.updateOptimistic(cmShain);
+		return cmShain;
+	}
+
+	/*
+	 * 削除
+	 */
+
+	public void confirmDelete(final CmShainForm form) {
+		setCmShainWithRel(form);
+	}
+
+	public CmShain delete(final CmShainForm form) {
+		// 行ロック
+		this.cmShainRepository.selectByPk4Update(form.getCmShainId());
+
+		val cmShain = selectByPkWithRel(form.getCmShainId());
+
+		this.cmShainRepository.deleteOptimistic(cmShain);
+		return cmShain;
+	}
 
 	/*
 	 * 共通
 	 */
 
 	protected void setCmShainWithRel(final CmShainForm form) {
-
-		val cmShain = selectByPkWithRel(form.getCmShainId());
-		form.copyFrom(cmShain);
-
+		form.copyFrom(selectByPkWithRel(form.getCmShainId()));
 	}
 
 	protected CmShain selectByPkWithRel(final Long cmShainId) {
-		var cmShain = Optional.ofNullable(this.cmShainRepository.selectByPkWithRel(cmShainId));
+		val cmShain = Optional.ofNullable(this.cmShainRepository.selectByPkWithRel(cmShainId));
 //		if (cmShain)) {
 //			throw new AppMessagesException(
 //					new AppMessage(ERROR, "valid.exists", prop("shain")));
