@@ -7,9 +7,12 @@ import com.github.hatimiti.dosm.base.FlashAttribute;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -28,7 +31,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
  * @author hatimiti
  */
 @Controller
-@SessionAttributes(types = CmShainForm.class)
+@SessionAttributes(types = { CmShainForm.class })
 @RequestMapping(CmShainController.URI)
 public class CmShainController {
 
@@ -47,19 +50,28 @@ public class CmShainController {
 
 	// 一覧
 
-//	@RequestMapping
-//	public ModelAndView index(CmShainListForm form) {
-//		copy(new CmShainListForm(), form);
+	@RequestMapping
+	public ModelAndView index(
+			final CmShainListForm form) {
+		copyProperties(new CmShainListForm(), form);
 //		form.compresses.off();
-//		return view(URI, "index.html", form);
-//	}
+		return view(URI, "index.html", form);
+	}
 
-//	@DoValidation(v = { ValidateList.class }, to = URI + "index.html")
-//	@RequestMapping("search")
-//	public ModelAndView search(CmShainListForm form) {
-//		this.cmShainService.search(form);
-//		return view(URI, "index.html", form);
-//	}
+	@GetMapping("search")
+	public ModelAndView search(
+	        final @PageableDefault(size = 3) Pageable pageable,
+			final @Validated CmShainListForm form,
+			final BindingResult bind) {
+
+		if (bind.hasErrors()) {
+			return view(URI, "index.html", form, bind);
+		}
+
+		form.pageable = pageable;
+		this.cmShainService.search(form);
+		return view(URI, "index.html", form);
+	}
 
 	// CSVダウンロード
 
@@ -89,7 +101,7 @@ public class CmShainController {
 	// 登録
 
 //	@Token(SET)
-	@RequestMapping(params = "prepareRegister")
+	@PostMapping(params = "prepareRegister")
 	public ModelAndView prepareRegister(final CmShainForm form) {
 		init(form, Mode.Register);
 		return view(URI, "edit.html", form);
@@ -122,8 +134,7 @@ public class CmShainController {
 	// 更新
 
 //	@Token(SET)
-//	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-	@RequestMapping(params = "prepareUpdate")
+	@PostMapping(params = "prepareUpdate")
 	public ModelAndView prepareUpdate(
 			final CmShainForm form) {
 		init(form, Mode.Update);
@@ -150,8 +161,7 @@ public class CmShainController {
 	// 削除
 
 //	@Token(SET)
-//	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-	@RequestMapping(params = "confirmDelete")
+	@PostMapping(params = "confirmDelete")
 	public ModelAndView confirmDelete(
 			final CmShainForm form) {
 		init(form, Mode.Delete);
@@ -160,8 +170,7 @@ public class CmShainController {
 	}
 
 //	@Token(CHECK)
-//	@DoValidation(v = { ValidId.class }, to = "backToList", transition = FORWORD)
-	@RequestMapping(params = "delete")
+	@PostMapping(params = "delete")
 	public ModelAndView delete(
 			final @Validated(Upd.class) CmShainForm form,
 			final RedirectAttributes ra) {

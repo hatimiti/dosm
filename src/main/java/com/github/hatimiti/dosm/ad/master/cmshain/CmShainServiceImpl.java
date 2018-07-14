@@ -1,5 +1,6 @@
 package com.github.hatimiti.dosm.ad.master.cmshain;
 
+import com.github.hatimiti.dosm.base.form.Pager;
 import com.github.hatimiti.dosm.repository.CmShainRepository;
 import com.github.hatimiti.dosm.repository.entity.CmShain;
 import lombok.val;
@@ -25,12 +26,12 @@ public class CmShainServiceImpl implements CmShainService {
 	 * 一覧検索
 	 */
 
-//	public void search(
-//			final CmShainListForm form) {
-//
-//		form.shainList = this.cmShainBhv.selectPageForMaster(form);
-//		form.setupPage(form.shainList);
-//	}
+	public void search(
+			final CmShainListForm form) {
+
+		form.shainList = new Pager(this.cmShainRepository
+				.selectPageForMaster(form), 5 , form);
+	}
 
 	/*
 	 * ダウンロード用CSV作成
@@ -76,7 +77,7 @@ public class CmShainServiceImpl implements CmShainService {
 //					this.cmShainBhv.insert(line.copyTo(new CmShain()));
 //				} else {
 //					CmShain cmShain = this.cmShainBhv.selectByPK(cmShainId.getValL()).get();
-//					this.cmShainBhv.update(line.copyTo(cmShain));
+//					this.cmShainBhv._update(line.copyTo(cmShain));
 //				}
 //			});
 //
@@ -127,7 +128,7 @@ public class CmShainServiceImpl implements CmShainService {
 				: form.getEncryptedPassword());
 
 		cmShain.setupCommonColumnOfUpdate();
-		this.cmShainRepository.updateOptimistic(cmShain);
+		this.cmShainRepository.update(cmShain);
 		return cmShain;
 	}
 
@@ -145,7 +146,7 @@ public class CmShainServiceImpl implements CmShainService {
 
 		val cmShain = selectByPkWithRel(form.getCmShainId());
 
-		this.cmShainRepository.deleteOptimistic(cmShain);
+		this.cmShainRepository.delete(cmShain);
 		return cmShain;
 	}
 

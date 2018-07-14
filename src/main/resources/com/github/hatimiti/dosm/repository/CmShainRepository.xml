@@ -27,6 +27,65 @@
         </association>
     </resultMap>
 
+    <select id="_countPageForMaster" resultType="long">
+        SELECT COUNT(*) FROM (
+        <include refid="selectPageForMasterQuery" />
+        )
+    </select>
+    <select id="_selectPageForMaster" resultMap="cmShainMap">
+        <include refid="selectPageForMasterQuery" />
+        <include refid="selectPageForMasterOrderBy" />
+        LIMIT ${pageable.pageNumber * pageable.pageSize}, ${pageable.pageSize}
+    </select>
+    <sql id="selectPageForMasterQuery">
+        SELECT s.*
+             , k.kaisha_mei
+             , k.kaisha_mei_en
+          FROM cm_shain s
+          JOIN cm_kaisha k
+            ON s.cm_kaisha_id = k.cm_kaisha_id
+        <include refid="selectPageForMasterWhere" />
+    </sql>
+    <sql id="selectPageForMasterOrderBy">
+        ORDER BY
+        <choose>
+            <when test="pageable.sort.getOrderFor('id') != null">
+                s.cm_shain_id
+                <if test="pageable.sort.getOrderFor('id').direction.name().equals('DESC')">DESC</if>,
+            </when>
+            <when test="pageable.sort.getOrderFor('km') != null">
+                k.kaisha_mei
+                <if test="pageable.sort.getOrderFor('km').direction.name().equals('DESC')">DESC</if>,
+            </when>
+            <when test="pageable.sort.getOrderFor('sm') != null">
+                s.shain_sei
+                <if test="pageable.sort.getOrderFor('sm').direction.name().equals('DESC')">DESC</if>,
+                s.shain_mei
+                <if test="pageable.sort.getOrderFor('sm').direction.name().equals('DESC')">DESC</if>,
+            </when>
+            <when test="pageable.sort.getOrderFor('sme') != null">
+                s.shain_sei_en
+                <if test="pageable.sort.getOrderFor('sme').direction.name().equals('DESC')">DESC</if>,
+                s.shain_mei_en
+                <if test="pageable.sort.getOrderFor('sme').direction.name().equals('DESC')">DESC</if>,
+            </when>
+        </choose>
+        s.cm_shain_id
+    </sql>
+    <sql id="selectPageForMasterWhere">
+        <where>
+            <if test="cmShainId != null and cmShainId != ''">
+                s.cm_shain_id = #{cmShainId}
+            </if>
+            <if test="cmKaishaId != null and cmKaishaId != ''">
+                AND s.cm_kaisha_id = #{cmKaishaId}
+            </if>
+            <if test="shainMei != null and shainMei != ''">
+                AND s.shain_mei LIKE '${shainMeiLike}%' ESCAPE '¥'
+            </if>
+        </where>
+    </sql>
+
     <select id="selectByPkWithRel" resultMap="cmShainMap">
         SELECT *
           FROM cm_shain s
