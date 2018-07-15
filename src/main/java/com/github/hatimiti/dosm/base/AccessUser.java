@@ -43,7 +43,7 @@ public class AccessUser implements UserDetails, Serializable {
 	private boolean isLogged;
 
 	/** 権限ロールID */
-	private Collection<? extends GrantedAuthority> authorities;
+	private Collection<? extends GrantedAuthority> authorities = Collections.emptyList();
 
 	/** アクセス元ロケール */
 	private Locale locale;
