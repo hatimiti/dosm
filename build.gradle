@@ -28,6 +28,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-security')
+	// https://github.com/thymeleaf/thymeleaf-extras-springsecurity
+    // https://github.com/thymeleaf/thymeleaf-extras-springsecurity/issues/53
+	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4')
+
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	compile('org.springframework.boot:spring-boot-starter-validation')

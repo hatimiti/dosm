@@ -15,11 +15,11 @@
 <div layout:fragment="contents">
 	<span th:if="${session['scopedTarget.accessUser']?.isLogged()}">ログインしました．</span>
 
-	<form th:action="@{/ad/login/do}" method="post">
-		ログイン：<input type="text" th:field="${form.loginCd}" autofocus="autofocus" /><br />
-			<div class="ErrorsProperty" th:if="${#fields.hasErrors('form.loginCd')}" th:errors="${form.loginCd}">xxx</div>
-		パスワード：<input type="password" th:field="${form.password}" /><br />
-			<div class="ErrorsProperty" th:errors="*{form.password}" th:text="${e}">xxx</div>
+	<form th:action="@{/ad/login}" method="post" th:object="${form}">
+		ログイン：<input type="text" th:field="*{loginCd}" autofocus="autofocus" /><br />
+			<div class="ErrorsProperty" th:if="${#fields.hasErrors('loginCd')}" th:errors="*{loginCd}">xxx</div>
+		パスワード：<input type="password" th:field="*{password}" /><br />
+			<div class="ErrorsProperty" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">xxx</div>
 		<button type="submit" name="login">Login</button><br>
 	</form>
 </div>

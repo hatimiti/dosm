@@ -13,13 +13,13 @@
 	<title>メニュー画面</title>
 </head>
 <body>
-<div th:fragment="logout" sec:authorize="isAuthenticated()">
-	<p>Login as: <span sec:authentication="lastName"></span> <span sec:authentication="principal.authorities"></span></p>
-	<form action="#" th:action="@{/logout}" method="post">
-		<input type="submit" value="Logout" />
-	</form>
-</div>
 <div layout:fragment="contents">
+	<div th:fragment="logout" sec:authorize="isAuthenticated()">
+		<p>Login as: <span sec:authentication="name">Anonymous</span>/<span sec:authentication="authorities"></span></p>
+		<form action="#" th:action="@{/logout}" method="post">
+			<input type="submit" value="Logout" />
+		</form>
+	</div>
 
 	<a th:href="@{'/hello/index'}">Hello コントローラ</a><br />
 	<a th:href="@{'/hello/output-report'}">帳票出力(PDF)</a><br />
