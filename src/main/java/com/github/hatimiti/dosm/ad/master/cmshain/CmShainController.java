@@ -35,7 +35,7 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @RequestMapping(CmShainController.URI)
 public class CmShainController {
 
-	public static final String URI = "/ad/master/cmShain/";
+	public static final String URI = "/ad/master/cmShain";
 
     private final CmShainService cmShainService;
     private final MessageSource messageSource;
@@ -55,7 +55,7 @@ public class CmShainController {
 			final CmShainListForm form) {
 		copyProperties(new CmShainListForm(), form);
 //		form.compresses.off();
-		return view(URI, "index.html", form);
+		return view(URI, "/index.html", form);
 	}
 
 	@GetMapping("search")
@@ -65,12 +65,12 @@ public class CmShainController {
 			final BindingResult bind) {
 
 		if (bind.hasErrors()) {
-			return view(URI, "index.html", form, bind);
+			return view(URI, "/index.html", form, bind);
 		}
 
 		form.pageable = pageable;
 		this.cmShainService.search(form);
-		return view(URI, "index.html", form);
+		return view(URI, "/index.html", form);
 	}
 
 	// CSVダウンロード
@@ -104,7 +104,7 @@ public class CmShainController {
 	@PostMapping(params = "prepareRegister")
 	public ModelAndView prepareRegister(final CmShainForm form) {
 		init(form, Mode.Register);
-		return view(URI, "edit.html", form);
+		return view(URI, "/edit.html", form);
 	}
 
 	@PostMapping(params = "confirmRegister")
@@ -113,7 +113,7 @@ public class CmShainController {
 			final BindingResult bind) {
 		return bind.hasErrors()
 				? backToPrepare(form, bind)
-				: view(URI, "confirm.html", form);
+				: view(URI, "/confirm.html", form);
 	}
 
 //	@Token(CHECK)
@@ -139,13 +139,13 @@ public class CmShainController {
 			final CmShainForm form) {
 		init(form, Mode.Update);
 		this.cmShainService.prepareUpdate(form);
-		return view(URI, "edit.html", form);
+		return view(URI, "/edit.html", form);
 	}
 
 	@PostMapping(params = "confirmUpdate")
 	public ModelAndView confirmUpdate(
 			final @Validated(Upd.class) CmShainForm form) {
-		return view(URI, "confirm.html", form);
+		return view(URI, "/confirm.html", form);
 	}
 
 //	@Token(CHECK)
@@ -166,7 +166,7 @@ public class CmShainController {
 			final CmShainForm form) {
 		init(form, Mode.Delete);
 		this.cmShainService.confirmDelete(form);
-		return view(URI, "confirm.html", form);
+		return view(URI, "/confirm.html", form);
 	}
 
 //	@Token(CHECK)
@@ -184,7 +184,7 @@ public class CmShainController {
 	@RequestMapping("complete")
 	public ModelAndView complete(final CmShainForm form, SessionStatus sessionStatus) {
 	    sessionStatus.setComplete();
-		return view(URI, "complete.html", form);
+		return view(URI, "/complete.html", form);
 	}
 
 	@RequestMapping(params = "backToList")
@@ -198,7 +198,7 @@ public class CmShainController {
 		if (Mode.Delete == form.getMode()) {
 			return backToList(form, null);
 		}
-		return view(URI, "edit.html", form, bind);
+		return view(URI, "/edit.html", form, bind);
 	}
 
 	private void init(final CmShainForm form, final Mode mode) {

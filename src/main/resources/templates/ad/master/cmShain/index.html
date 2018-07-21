@@ -34,7 +34,7 @@
 		<label><input type="radio" th:field="*{compresses}" value="1" />zip</label>
 				<div class="ErrorsProperty" th:if="${#fields.hasErrors('compresses')}" th:errors="*{compresses}">xxx</div>
 	</form>
-	<form action=".">
+	<form action="." th:action="." method="post">
 		<input type="submit" name="prepareRegister" value="登録" />
 	</form>
 	<div th:if="${not #lists.isEmpty(form.shainList)}">

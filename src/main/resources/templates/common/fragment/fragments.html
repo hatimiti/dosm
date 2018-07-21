@@ -8,19 +8,19 @@
 <!--/*/ <th:block th:if="${page.totalElements != 0 or dispIfEmpty}"> /*/-->
 <!--/* 最初へ */-->
 <a th:if="${page.hasPrevious()}" th:href="|@{${action}}?page=0${page.searchConditions}|">&lt;&lt;</a>
-<span th:if="${!page.hasPrevious()}">&lt;&lt;</span>&nbsp;
+<span th:if="${!page.hasPrevious()}">&lt;&lt;</span>&#32;
 <!--/* 前へ */-->
 <a th:if="${page.hasPrevious()}" th:href="|@{${action}}?page=${page.number - 1}${page.searchConditions}|">&lt;</a>
-<span th:if="${!page.hasPrevious()}">&lt;</span>&nbsp;
+<span th:if="${!page.hasPrevious()}">&lt;</span>&#32;
 <!--/* ページリンク */-->
-<span th:if="${#lists.isEmpty(page.pageNumberList)}">1&nbsp;&nbsp;</span>
+<span th:if="${#lists.isEmpty(page.pageNumberList)}">1&#32;&#32;</span>
 <span th:each="navi : ${page.pageNumberList}">
 	<span th:if="${(navi - 1) eq page.number}" th:text="${navi}">2</span>
 	<a th:if="${(navi - 1) != page.number}" th:href="|@{${action}}?page=${navi - 1}${page.searchConditions}|" th:text="${navi}">2</a>
-</span>&nbsp;
+</span>&#32;
 <!--/* 次へ */-->
 <a th:if="${page.hasNext()}" th:href="|@{${action}}?page=${page.number + 1}${page.searchConditions}|">&gt;</a>
-<span th:if="${!page.hasNext()}">&gt;</span>&nbsp;
+<span th:if="${!page.hasNext()}">&gt;</span>&#32;
 <!--/* 最後へ */-->
 <a th:if="${page.hasNext()}" th:href="|@{${action}}?page=${page.totalPages - 1}${page.searchConditions}|">&gt;&gt;</a>
 <span th:if="${!page.hasNext()}">&gt;&gt;</span>

@@ -5,7 +5,10 @@ import com.github.hatimiti.dosm.repository.entity.CmShain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
@@ -14,17 +17,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CmShainControllerTest {
+public class CmShainControllerJUnitTest {
 
-    private CmShainController cmShainController;
-    private CmShainService cmShainService;
+    @InjectMocks private CmShainController cmShainController;
+    @Mock private CmShainService cmShainService;
+    @Mock private MessageSource messageSource;
 
     @BeforeEach
-    public void beforeAll() {
-        cmShainService = Mockito.mock(CmShainService.class);
-        cmShainController = new CmShainController(
-                cmShainService,
-                Mockito.mock(MessageSource.class));
+    public void beforeEach() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
