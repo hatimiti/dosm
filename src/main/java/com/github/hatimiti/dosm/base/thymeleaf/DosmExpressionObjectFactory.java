@@ -22,9 +22,8 @@ public class DosmExpressionObjectFactory implements IExpressionObjectFactory {
         this.dosmDialectHelper = dosmDialectHelper;
     }
 
-    private static final Set<String> EXPRESSIONS = Collections.unmodifiableSet(new HashSet<>() {{
-        add(DOSM_COMMON_DIALECT_PREFIX);
-    }});
+    private static final Set<String> EXPRESSIONS = Collections.unmodifiableSet(
+            new HashSet<String>() {{ add(DOSM_COMMON_DIALECT_PREFIX); }});
 
     @Override
     public Set<String> getAllExpressionObjectNames() {
