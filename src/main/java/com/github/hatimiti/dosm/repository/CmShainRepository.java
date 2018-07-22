@@ -25,7 +25,7 @@ public interface CmShainRepository {
     default Page<CmShain> selectPageForMaster(final CmShainListForm form) {
 
         val count = _countPageForMaster(form);
-        var shainList = Collections.<CmShain>emptyList();
+        List<CmShain> shainList = Collections.<CmShain>emptyList();
         if (0 < count) {
             shainList = _selectPageForMaster(form);
         }

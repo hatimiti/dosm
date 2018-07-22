@@ -1,6 +1,7 @@
 package com.github.hatimiti.dosm.ad.login;
 
 import com.github.hatimiti.dosm.base.AccessUser;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +23,7 @@ public class CmShainAuthenticationFilter extends UsernamePasswordAuthenticationF
             final HttpServletRequest request,
             final HttpServletResponse response) throws AuthenticationException {
 
-        final var token = new UsernamePasswordAuthenticationToken(
+        val token = new UsernamePasswordAuthenticationToken(
                 createUserDetails(request, response), obtainPassword(request));
         setDetails(request, token);
         return getAuthenticationManager().authenticate(token);
