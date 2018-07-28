@@ -40,8 +40,8 @@ public interface CmShainRepository {
 
     CmShain selectByPkWithRel(@Param("id") Object cmShainId);
 
-    @Select("SELECT * FROM cm_shain WHERE login_cd = #{loginCd} AND password = #{password}")
-    CmShain selectByLoginCdAndPassword(@Param("loginCd") String loginCd, @Param("password") String password);
+    @Select("SELECT * FROM cm_shain WHERE login_cd = #{loginCd}")
+    CmShain selectByLoginCd(@Param("loginCd") String loginCd);
 
     @Options(useGeneratedKeys = true, keyProperty = "cmShainId")
     @Insert("INSERT INTO cm_shain ("

@@ -7,7 +7,7 @@ INSERT INTO cm_kaisha (kaisha_mei, kaisha_mei_en, reg_user_id, reg_tm, reg_func_
 
 -- cm_shain
 INSERT INTO cm_shain (cm_kaisha_id, shain_sei, shain_mei, shain_sei_en, shain_mei_en, login_cd, password, reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no)
-  VALUES (2, 'サンプル', '太郎1', NULL, NULL, 'sample', 'asdf1234', 'hatimiti', now(), 'MAN', 'hatimiti', now(), 'MAN', 1);
+  VALUES (2, 'サンプル', '太郎1', NULL, NULL, 'sample', '$2a$10$Q0WA9o5IqfWWJXYq1soROutSFuER2gTxtZ6svyFZ5S1cbC0a2IsEe', 'hatimiti', now(), 'MAN', 'hatimiti', now(), 'MAN', 1);
 INSERT INTO cm_shain (cm_kaisha_id, shain_sei, shain_mei, shain_sei_en, shain_mei_en, login_cd, password, reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no)
   VALUES (1, 'サンプル', '太郎2', NULL, NULL, 'sample2', 'asdf1234', 'hatimiti', now(), 'MAN', 'hatimiti', now(), 'MAN', 1);
 INSERT INTO cm_shain (cm_kaisha_id, shain_sei, shain_mei, shain_sei_en, shain_mei_en, login_cd, password, reg_user_id, reg_tm, reg_func_cd, upd_user_id, upd_tm, upd_func_cd, version_no)
