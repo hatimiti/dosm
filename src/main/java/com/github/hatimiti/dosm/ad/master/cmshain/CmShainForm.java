@@ -19,50 +19,50 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class CmShainForm implements Form {
 
-	@ExistsCmShainId(groups = Mode.Upd.class)
-	@NotNull(groups = Mode.Upd.class)
-	private Long cmShainId;
+    @ExistsCmShainId(groups = Mode.Upd.class)
+    @NotNull(groups = Mode.Upd.class)
+    private Long cmShainId;
 
-	@NotNull
-	private Long cmKaishaId;
+    @NotNull
+    private Long cmKaishaId;
 
-	@NotBlank
-	@Size(max = 50)
-	private String shainSei;
+    @NotBlank
+    @Size(max = 50)
+    private String shainSei;
 
-	@NotBlank
-	@Size(max = 50)
-	private String shainMei;
+    @NotBlank
+    @Size(max = 50)
+    private String shainMei;
 
-	@Size(max = 100)
-	private String shainSeiEn;
+    @Size(max = 100)
+    private String shainSeiEn;
 
-	@Size(max = 100)
-	private String shainMeiEn;
+    @Size(max = 100)
+    private String shainMeiEn;
 
-	@NotBlank
-	private String loginCd;
+    @NotBlank
+    private String loginCd;
 
-	@NotBlank(groups = Mode.Reg.class)
-	private String password;
+    @NotBlank(groups = Mode.Reg.class)
+    private String password;
 
-	private Integer versionNo;
-	private Mode mode;
+    private Integer versionNo;
+    private Mode mode;
 
-	public void copyFrom(final CmShain entity) {
-		this.cmShainId = entity.getCmShainId();
-		this.cmKaishaId = entity.getCmKaishaId();
-		this.shainSei = entity.getShainSei();
-		this.shainMei = entity.getShainMei();
-		this.shainSeiEn = entity.getShainSeiEn();
-		this.shainMeiEn = entity.getShainMeiEn();
-		this.loginCd = entity.getLoginCd();
-		this.password = entity.getPassword();
-		this.versionNo = entity.getVersionNo();
-	}
+    public void copyFrom(final CmShain entity) {
+        this.cmShainId = entity.getCmShainId();
+        this.cmKaishaId = entity.getCmKaishaId();
+        this.shainSei = entity.getShainSei();
+        this.shainMei = entity.getShainMei();
+        this.shainSeiEn = entity.getShainSeiEn();
+        this.shainMeiEn = entity.getShainMeiEn();
+        this.loginCd = entity.getLoginCd();
+        this.password = entity.getPassword();
+        this.versionNo = entity.getVersionNo();
+    }
 
-	String getEncryptedPassword() {
-		return new BCryptPasswordEncoder().encode(password);
-	}
+    String getEncryptedPassword() {
+        return new BCryptPasswordEncoder().encode(password);
+    }
 
 }
