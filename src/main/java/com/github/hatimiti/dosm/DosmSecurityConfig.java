@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContext;
